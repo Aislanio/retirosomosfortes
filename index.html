@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MRNT 2026: Somos Fortes</title>
+    <link rel="icon" type="image/png" href="assets/logo2.png">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuração de Cores Personalizadas do Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            950: '#022c22', // Fundo principal
+                            900: '#064e3b',
+                            800: '#065f46',
+                            100: '#d1fae5',
+                        },
+                        lime: {
+                            300: '#bef264',
+                            400: '#a3e635', // Destaque principal
+                            500: '#84cc16',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Fontes Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Merriweather:ital,wght@1,700&display=swap" rel="stylesheet">
+
+    <!-- Ícones Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Estilos base e animações personalizadas */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #022c22; /* emerald-950 */
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Classes para animação de scroll (Reveal) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .container-header{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .logotipo{
+            width: 100%;
+            max-width: 60vh;
+        }
+        .logo{
+            width: 100%;
+            max-width: 20vh;
+        }
+
+        .reveal-scale {
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.8s ease-out;
+        }
+        .reveal-scale.active {
+            transform: scaleX(1);
+        }
+
+        /* Animação do Scroll Indicator */
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(0) translateX(-50%); }
+            50% { transform: translateY(10px) translateX(-50%); }
+        }
+        .animate-bounce-slow {
+            animation: bounce-slow 1.5s infinite;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-lime-400 selection:text-emerald-950">
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="text-2xl font-black text-white tracking-tighter flex items-center gap-2">
+               <img class="logo" src="assets/logo.svg" alt="">
+            
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#sobre" class="text-emerald-100 hover:text-lime-400 font-medium transition-colors">O Retiro</a>
+                <a href="#cronograma" class="text-emerald-100 hover:text-lime-400 font-medium transition-colors">Cronograma</a>
+                <a href="#avisos" class="text-emerald-100 hover:text-lime-400 font-medium transition-colors">Avisos</a>
+                <a href="#inscricao" class="text-emerald-100 hover:text-lime-400 font-medium transition-colors">Inscrição</a>
+                
+                <button onclick="document.getElementById('inscricao').scrollIntoView()" class="px-6 py-2 rounded-full font-bold text-sm bg-lime-400 text-emerald-950 hover:bg-lime-300 hover:shadow-lg hover:shadow-lime-400/50 transition-all transform hover:scale-105">
+                    Participar
+                </button>
+            </div>
+
+            <!-- Mobile Toggle -->
+            <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none">
+                <i data-lucide="menu" class="w-7 h-7"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-emerald-900 border-t border-emerald-800 absolute w-full top-full left-0">
+            <div class="flex flex-col p-6 gap-4">
+                <a href="#sobre" class="mobile-link text-white text-lg font-medium">O Retiro</a>
+                <a href="#cronograma" class="mobile-link text-white text-lg font-medium">Cronograma</a>
+                <a href="#avisos" class="mobile-link text-white text-lg font-medium">Avisos</a>
+                <a href="#inscricao" class="mobile-link text-white text-lg font-medium">Inscrição</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1519791883288-dc8bd696e667?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Retiro Jovem" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-b from-emerald-950/80 via-emerald-900/60 to-emerald-950"></div>
+        </div>
+
+        <!-- Content -->
+        <div class="container-header container mx-auto px-6 relative z-10 text-center reveal active">
+            <span class="inline-block py-1 px-3 rounded-full bg-lime-400/20 text-lime-400 border border-lime-400/50 mb-6 font-bold tracking-wider text-sm backdrop-blur-sm">
+                RETIRO DE JOVENS 2026
+            </span>
+            <img class="logotipo" src="assets/logotipo.svg" alt="">
+            
+            <p class="text-xl md:text-2xl text-emerald-100 max-w-2xl mx-auto mb-10 font-light italic">
+                "Eu vos escrevi, jovens, porque sois fortes, e a palavra de Deus permanece em vós." (1 João 2:14)
+            </p>
+            
+            <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+                <a href="https://www.even3.com.br/retiro-jovem-2026-somos-fortes-639470/" class="px-8 py-3 rounded-full font-bold text-lg bg-lime-400 text-emerald-950 hover:bg-lime-300 hover:shadow-lg hover:shadow-lime-400/50 transition-all transform hover:scale-105 flex items-center gap-2">
+                    Garantir minha vaga <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </a>
+                <button onclick="document.getElementById('cronograma').scrollIntoView()" class="px-8 py-3 rounded-full font-bold text-lg border-2 border-lime-400 text-lime-400 hover:bg-lime-400 hover:text-emerald-950 transition-all transform hover:scale-105 flex items-center gap-2">
+                    Ver Programação
+                </button>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 text-emerald-100/50 animate-bounce-slow">
+            <div class="w-6 h-10 border-2 border-current rounded-full flex justify-center pt-2">
+                <div class="w-1 h-2 bg-current rounded-full"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="sobre" class="py-24 bg-emerald-950 relative overflow-hidden">
+        <!-- Blobs decorativos -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-lime-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <!-- Section Heading -->
+            <div class="mb-12 text-center reveal">
+                <span class="text-lime-400 font-bold tracking-widest uppercase text-sm mb-2 block">O Propósito</span>
+                <h2 class="text-4xl md:text-5xl font-extrabold text-white">Por que participar?</h2>
+                <div class="h-1 bg-lime-500 mt-4 mx-auto w-24 reveal-scale"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Card 1 -->
+                <div class="reveal bg-emerald-900/50 backdrop-blur-sm p-8 rounded-2xl border border-emerald-800 hover:border-lime-500/50 transition-all group hover:-translate-y-2 duration-300">
+                    <div class="w-14 h-14 bg-emerald-800 rounded-xl flex items-center justify-center mb-6 group-hover:bg-lime-500 transition-colors duration-300">
+                        <i data-lucide="flame" class="text-lime-400 group-hover:text-emerald-950 transition-colors w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Avivamento</h3>
+                    <p class="text-emerald-200/80 leading-relaxed">Momentos profundos de oração e encontro com o Espírito Santo.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="reveal bg-emerald-900/50 backdrop-blur-sm p-8 rounded-2xl border border-emerald-800 hover:border-lime-500/50 transition-all group hover:-translate-y-2 duration-300" style="transition-delay: 100ms;">
+                    <div class="w-14 h-14 bg-emerald-800 rounded-xl flex items-center justify-center mb-6 group-hover:bg-lime-500 transition-colors duration-300">
+                        <i data-lucide="users" class="text-lime-400 group-hover:text-emerald-950 transition-colors w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Comunidade</h3>
+                    <p class="text-emerald-200/80 leading-relaxed">Faça novas amizades e fortaleça laços com outros jovens.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="reveal bg-emerald-900/50 backdrop-blur-sm p-8 rounded-2xl border border-emerald-800 hover:border-lime-500/50 transition-all group hover:-translate-y-2 duration-300" style="transition-delay: 200ms;">
+                    <div class="w-14 h-14 bg-emerald-800 rounded-xl flex items-center justify-center mb-6 group-hover:bg-lime-500 transition-colors duration-300">
+                        <i data-lucide="music" class="text-lime-400 group-hover:text-emerald-950 transition-colors w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Louvor</h3>
+                    <p class="text-emerald-200/80 leading-relaxed">Shows e momentos de adoração que tocam a alma.</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="reveal bg-emerald-900/50 backdrop-blur-sm p-8 rounded-2xl border border-emerald-800 hover:border-lime-500/50 transition-all group hover:-translate-y-2 duration-300" style="transition-delay: 300ms;">
+                    <div class="w-14 h-14 bg-emerald-800 rounded-xl flex items-center justify-center mb-6 group-hover:bg-lime-500 transition-colors duration-300">
+                        <i data-lucide="shield" class="text-lime-400 group-hover:text-emerald-950 transition-colors w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Formação</h3>
+                    <p class="text-emerald-200/80 leading-relaxed">Pregações impactantes para fortalecer sua fé no dia a dia.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parallax Divider -->
+    <div class="h-64 md:h-96 relative bg-fixed bg-center bg-cover" style="background-image: url('https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')">
+        <div class="absolute inset-0 bg-emerald-950/60 flex items-center justify-center">
+            <h3 class="text-3xl md:text-5xl font-bold text-white text-center px-4 font-serif italic reveal active">
+                "A alegria do Senhor é a nossa força"
+            </h3>
+        </div>
+    </div>
+
+    <!-- Schedule Section -->
+    <section id="cronograma" class="py-24 bg-emerald-900">
+        <div class="container mx-auto px-6">
+            <div class="mb-12 text-center reveal">
+                <span class="text-lime-400 font-bold tracking-widest uppercase text-sm mb-2 block">Programação</span>
+                <h2 class="text-4xl md:text-5xl font-extrabold text-white">O que vai rolar</h2>
+                <div class="h-1 bg-lime-500 mt-4 mx-auto w-24 reveal-scale"></div>
+            </div>
+
+            <div class="max-w-4xl mx-auto relative">
+                <!-- Vertical Line -->
+                <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-emerald-800 md:-translate-x-1/2"></div>
+
+                <!-- Event 1 -->
+                <div class="relative flex flex-col md:flex-row items-center mb-12 md:justify-between reveal-left">
+                    <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-lime-400 rounded-full border-4 border-emerald-900 md:-translate-x-1/2 z-10 translate-y-1.5 md:translate-y-0"></div>
+                    
+                    <div class="w-full md:w-[45%] pl-12 md:pl-0 md:text-right md:pr-8 order-2 md:order-1">
+                        <div class="bg-emerald-950 p-6 rounded-2xl shadow-xl border-l-4 border-lime-500 md:border-l-0 md:border-r-4">
+                            <span class="text-lime-400 font-bold text-sm mb-1 block">Quinta, 19:00</span>
+                            <h4 class="text-xl font-bold text-white mb-2">Missão de Abertura</h4>
+                            <p class="text-emerald-300 text-sm">Início oficial do retiro com celebração.</p>
+                        </div>
+                    </div>
+                    <div class="hidden md:block w-[45%] order-2"></div>
+                </div>
+
+                <!-- Event 2 -->
+                <div class="relative flex flex-col md:flex-row items-center mb-12 md:justify-between reveal-right">
+                    <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-lime-400 rounded-full border-4 border-emerald-900 md:-translate-x-1/2 z-10 translate-y-1.5 md:translate-y-0"></div>
+                    
+                    <div class="hidden md:block w-[45%] order-1"></div>
+                    <div class="w-full md:w-[45%] pl-12 md:pl-0 md:text-left md:pl-8 order-2">
+                        <div class="bg-emerald-950 p-6 rounded-2xl shadow-xl border-l-4 border-lime-500">
+                            <span class="text-lime-400 font-bold text-sm mb-1 block">Sexta, 21:30</span>
+                            <h4 class="text-xl font-bold text-white mb-2">-----------</h4>
+                            <p class="text-emerald-300 text-sm">----------------</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 3 -->
+                <div class="relative flex flex-col md:flex-row items-center mb-12 md:justify-between reveal-left">
+                    <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-lime-400 rounded-full border-4 border-emerald-900 md:-translate-x-1/2 z-10 translate-y-1.5 md:translate-y-0"></div>
+                    
+                    <div class="w-full md:w-[45%] pl-12 md:pl-0 md:text-right md:pr-8 order-2 md:order-1">
+                        <div class="bg-emerald-950 p-6 rounded-2xl shadow-xl border-l-4 border-lime-500 md:border-l-0 md:border-r-4">
+                            <span class="text-lime-400 font-bold text-sm mb-1 block">----------</span>
+                            <h4 class="text-xl font-bold text-white mb-2">---------------</h4>
+                            <p class="text-emerald-300 text-sm">----------------</p>
+                        </div>
+                    </div>
+                    <div class="hidden md:block w-[45%] order-2"></div>
+                </div>
+
+                <!-- Event 4 -->
+                <div class="relative flex flex-col md:flex-row items-center mb-12 md:justify-between reveal-right">
+                    <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-lime-400 rounded-full border-4 border-emerald-900 md:-translate-x-1/2 z-10 translate-y-1.5 md:translate-y-0"></div>
+                    
+                    <div class="hidden md:block w-[45%] order-1"></div>
+                    <div class="w-full md:w-[45%] pl-12 md:pl-0 md:text-left md:pl-8 order-2">
+                        <div class="bg-emerald-950 p-6 rounded-2xl shadow-xl border-l-4 border-lime-500">
+                            <span class="text-lime-400 font-bold text-sm mb-1 block">Sábado, 20:00</span>
+                            <h4 class="text-xl font-bold text-white mb-2">------------------- </h4>
+                            <p class="text-emerald-300 text-sm">----------------------------</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 5 -->
+                <div class="relative flex flex-col md:flex-row items-center mb-12 md:justify-between reveal-left">
+                    <div class="absolute left-4 md:left-1/2 w-4 h-4 bg-lime-400 rounded-full border-4 border-emerald-900 md:-translate-x-1/2 z-10 translate-y-1.5 md:translate-y-0"></div>
+                    
+                    <div class="w-full md:w-[45%] pl-12 md:pl-0 md:text-right md:pr-8 order-2 md:order-1">
+                        <div class="bg-emerald-950 p-6 rounded-2xl shadow-xl border-l-4 border-lime-500 md:border-l-0 md:border-r-4">
+                            <span class="text-lime-400 font-bold text-sm mb-1 block">Domingo, 10:00</span>
+                            <h4 class="text-xl font-bold text-white mb-2">Missa de Envio</h4>
+                            <p class="text-emerald-300 text-sm">Encerramento.</p>
+                        </div>
+                    </div>
+                    <div class="hidden md:block w-[45%] order-2"></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: Rules/Notices -->
+    <section id="avisos" class="py-24 bg-emerald-950 relative border-t border-emerald-900">
+         <div class="container mx-auto px-6 relative z-10">
+            <div class="mb-12 text-center reveal">
+                <span class="text-lime-400 font-bold tracking-widest uppercase text-sm mb-2 block">Informações Essenciais</span>
+                <h2 class="text-4xl md:text-5xl font-extrabold text-white">⚠️ Avisos Retiro MRNT</h2>
+                <div class="h-1 bg-lime-500 mt-4 mx-auto w-24 reveal-scale"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- 1 -->
+                <div class="bg-emerald-900/40 p-6 rounded-xl border border-emerald-800 hover:border-lime-500/30 transition-all reveal-left flex gap-4">
+                    <div class="shrink-0 w-10 h-10 bg-emerald-800 rounded-full flex items-center justify-center text-lime-400 font-bold">1</div>
+                    <div>
+                        <h4 class="text-white font-bold text-lg mb-1">Transporte</h4>
+                        <p class="text-emerald-200/80 text-sm leading-relaxed">O valor do retiro não inclui transporte. A locomoção até o sítio é de responsabilidade de cada participante (organizaremos caronas solidárias).</p>
+                    </div>
+                </div>
+
+                <!-- 2 -->
+                <div class="bg-emerald-900/40 p-6 rounded-xl border border-emerald-800 hover:border-lime-500/30 transition-all reveal-right flex gap-4">
+                    <div class="shrink-0 w-10 h-10 bg-emerald-800 rounded-full flex items-center justify-center text-lime-400 font-bold">2</div>
+                    <div>
+                        <h4 class="text-white font-bold text-lg mb-1">Acomodação</h4>
+                        <p class="text-emerald-200/80 text-sm leading-relaxed"></p> A divisão será feita por gênero e ordem de inscrição.</p>
+                    </div>
+                </div>
+
+                <!-- 3 -->
+                <div class="bg-emerald-900/40 p-6 rounded-xl border border-emerald-800 hover:border-lime-500/30 transition-all reveal-left flex gap-4">
+                    <div class="shrink-0 w-10 h-10 bg-emerald-800 rounded-full flex items-center justify-center text-lime-400 font-bold">3</div>
+                    <div>
+                        <h4 class="text-white font-bold text-lg mb-1">Utensílios</h4>
+                        <p class="text-emerald-200/80 text-sm leading-relaxed">Cada participante deverá levar seus utensílios para alimentação (Prato, colher, copo, etc) para reduzir o uso de descartáveis.</p>
+                    </div>
+                </div>
+
+                <!-- 4 -->
+                <div class="bg-emerald-900/40 p-6 rounded-xl border border-emerald-800 hover:border-lime-500/30 transition-all reveal-right flex gap-4">
+                    <div class="shrink-0 w-10 h-10 bg-emerald-800 rounded-full flex items-center justify-center text-lime-400 font-bold">4</div>
+                    <div>
+                        <h4 class="text-white font-bold text-lg mb-1">Objetos Pessoais</h4>
+                        <p class="text-emerald-200/80 text-sm leading-relaxed">Cada um será responsável por seus pertences. A organização não se responsabiliza por perdas de eletrônicos ou itens de valor.</p>
+                    </div>
+                </div>
+
+                <!-- 5 -->
+                <div class="bg-emerald-900/40 p-6 rounded-xl border border-emerald-800 hover:border-lime-500/30 transition-all reveal-left flex gap-4">
+                    <div class="shrink-0 w-10 h-10 bg-emerald-800 rounded-full flex items-center justify-center text-lime-400 font-bold">5</div>
+                    <div>
+                        <h4 class="text-white font-bold text-lg mb-1">Menores de Idade</h4>
+                        <p class="text-emerald-200/80 text-sm leading-relaxed">Participantes menores de 18 anos devem levar uma declaração de autorização assinada pelos pais ou responsáveis legais.</p>
+                    </div>
+                </div>
+
+                <!-- 6 -->
+                <div class="bg-emerald-900/40 p-6 rounded-xl border border-emerald-800 hover:border-lime-500/30 transition-all reveal-right flex gap-4">
+                    <div class="shrink-0 w-10 h-10 bg-emerald-800 rounded-full flex items-center justify-center text-lime-400 font-bold">6</div>
+                    <div>
+                        <h4 class="text-white font-bold text-lg mb-1">Regras</h4>
+                        <p class="text-emerald-200/80 text-sm leading-relaxed">O retiro terá regras de convivência (horários, silêncio, vestimenta) que serão apresentadas na chegada.</p>
+                    </div>
+                </div>
+
+                <!-- 7 -->
+                <div class="bg-emerald-900/40 p-6 rounded-xl border border-emerald-800 hover:border-lime-500/30 transition-all reveal-left flex gap-4">
+                    <div class="shrink-0 w-10 h-10 bg-emerald-800 rounded-full flex items-center justify-center text-lime-400 font-bold">7</div>
+                    <div>
+                        <h4 class="text-white font-bold text-lg mb-1">Seguro</h4>
+                        <p class="text-emerald-200/80 text-sm leading-relaxed">Todos os inscritos serão assegurados pela ARM (Seguro de Acidentes Pessoais) durante os dias do evento.</p>
+                    </div>
+                </div>
+
+                <!-- 8 -->
+                <div class="bg-emerald-900/40 p-6 rounded-xl border border-emerald-800 hover:border-lime-500/30 transition-all reveal-right flex gap-4">
+                    <div class="shrink-0 w-10 h-10 bg-emerald-800 rounded-full flex items-center justify-center text-lime-400 font-bold">8</div>
+                    <div>
+                        <h4 class="text-white font-bold text-lg mb-1">Responsabilidade dos Pais</h4>
+                        <p class="text-emerald-200/80 text-sm leading-relaxed">Pais são responsáveis pelos filhos menores durante o evento, garantindo que cumpram os horários e atividades.</p>
+                    </div>
+                </div>
+
+                <!-- 9 -->
+                <div class="bg-emerald-900/40 p-6 rounded-xl border border-emerald-800 hover:border-lime-500/30 transition-all reveal-left flex gap-4">
+                    <div class="shrink-0 w-10 h-10 bg-emerald-800 rounded-full flex items-center justify-center text-lime-400 font-bold">9</div>
+                    <div>
+                        <h4 class="text-white font-bold text-lg mb-1">Namoro e Conduta</h4>
+                        <p class="text-emerald-200/80 text-sm leading-relaxed">O retiro é um momento de oração. Demonstrações de afeto excessivas entre casais não serão permitidas no local.</p>
+                    </div>
+                </div>
+
+                <!-- 10 -->
+                <div class="bg-emerald-900/40 p-6 rounded-xl border border-emerald-800 hover:border-lime-500/30 transition-all reveal-right flex gap-4">
+                    <div class="shrink-0 w-10 h-10 bg-emerald-800 rounded-full flex items-center justify-center text-lime-400 font-bold">10</div>
+                    <div>
+                        <h4 class="text-white font-bold text-lg mb-1">Dúvidas</h4>
+                        <p class="text-emerald-200/80 text-sm leading-relaxed">Entre em contato com os administradores via WhatsApp ou Instagram para qualquer esclarecimento adicional.</p>
+                    </div>
+                </div>
+            </div>
+         </div>
+    </section>
+
+    <!-- NEW SECTION: Files/Downloads -->
+    <section class="py-16 bg-emerald-900 border-t border-emerald-800">
+        <div class="container mx-auto px-6">
+            <h3 class="text-2xl font-bold text-white mb-8 text-center flex items-center justify-center gap-2">
+                <i data-lucide="folder-down" class="text-lime-400"></i> Arquivos Importantes
+            </h3>
+            
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="https://docs.google.com/document/d/1BasTpcSF96ayzoTQEpHF6dRIp-3dF5nskzu7iLK63YM/edit?usp=sharing" class="group flex items-center gap-3 bg-emerald-800 hover:bg-emerald-700 px-6 py-4 rounded-xl border border-emerald-700 hover:border-lime-500 transition-all transform hover:-translate-y-1">
+                    <div class="p-2 bg-emerald-950/50 rounded-lg group-hover:text-lime-400 transition-colors">
+                        <i data-lucide="file-text" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-white text-sm">Autorização para Menores</p>
+                        <p class="text-emerald-300 text-xs">PDF • 217kb</p>
+                    </div>
+                    <i data-lucide="download" class="w-5 h-5 text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity ml-2"></i>
+                </a>
+
+                <a href="#" class="group flex items-center gap-3 bg-emerald-800 hover:bg-emerald-700 px-6 py-4 rounded-xl border border-emerald-700 hover:border-lime-500 transition-all transform hover:-translate-y-1">
+                    <div class="p-2 bg-emerald-950/50 rounded-lg group-hover:text-lime-400 transition-colors">
+                        <i data-lucide="list-checks" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-white text-sm">Lista: O que levar?</p>
+                        <p class="text-emerald-300 text-xs">PDF • 85kb</p>
+                    </div>
+                     <i data-lucide="download" class="w-5 h-5 text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity ml-2"></i>
+                </a>
+
+                <a href="https://maps.app.goo.gl/iy6UsDJKCiKuTNPZ9" class="group flex items-center gap-3 bg-emerald-800 hover:bg-emerald-700 px-6 py-4 rounded-xl border border-emerald-700 hover:border-lime-500 transition-all transform hover:-translate-y-1">
+                    <div class="p-2 bg-emerald-950/50 rounded-lg group-hover:text-lime-400 transition-colors">
+                        <i data-lucide="map" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-white text-sm">Localização da Chacara </p>
+                        <p class="text-emerald-300 text-xs">Link • Google Maps</p>
+                    </div>
+                     <i data-lucide="download" class="w-5 h-5 text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+   <section id="inscricao" class="py-24 bg-gradient-to-br from-emerald-950 to-emerald-900 relative">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center gap-12">
+            
+            <div class="w-full md:w-1/2 reveal-left">
+                <div class="mb-12 text-left">
+                    <span class="text-lime-400 font-bold tracking-widest uppercase text-sm mb-2 block">Garanta sua vaga</span>
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-white">Inscreva-se Agora</h2>
+                    <div class="h-1 bg-lime-500 mt-4 w-24 reveal-scale"></div>
+                </div>
+
+                <p class="text-emerald-100 text-lg mb-8 leading-relaxed">
+                    As inscrições estão sendo realizadas através da plataforma <strong>Even3</strong>. O processo é rápido, seguro e você já garante seu kit e alimentação.
+                </p>
+                
+                <div class="space-y-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-emerald-800 rounded-full flex items-center justify-center text-lime-400">
+                            <i data-lucide="calendar" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold">Data do Evento</h4>
+                            <p class="text-emerald-300">29 de Janeiro a 01 de Fevereiro de 2026</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full md:w-1/2 reveal-right">
+                <div class="bg-white rounded-3xl p-10 shadow-2xl text-center border-t-8 border-lime-400">
+                    <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-lucide="user-plus" class="w-10 h-10"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-emerald-950 mb-4">Inscrição via Even3</h3>
+                    <p class="text-gray-600 mb-8">
+                        Clique no botão abaixo para ser redirecionado ao site oficial de inscrições e pagamentos.
+                    </p>
+                    
+                    <a href="https://www.even3.com.br/retiro-jovem-2026-somos-fortes-639470/" target="_blank" 
+                       class="inline-flex items-center justify-center gap-3 w-full bg-emerald-600 text-white font-black py-5 rounded-2xl hover:bg-emerald-700 transition-all shadow-lg hover:shadow-emerald-500/40 transform hover:-translate-y-1 text-xl">
+                        ACESSAR SITE DE INSCRIÇÃO
+                        <i data-lucide="arrow-right" class="w-6 h-6"></i>
+                    </a>
+                    
+                    <p class="text-xs text-gray-400 mt-6">
+                        Ambiente seguro operado pela plataforma Even3.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-emerald-950 pt-16 pb-8 border-t border-emerald-900">
+        <div class="container mx-auto px-6 text-center">
+            <div class="mb-8">
+                <h2 class="text-3xl font-black text-white mb-2">MRNT<span class="text-lime-400">2026</span></h2>
+                <p class="text-emerald-300">Movimento de Renovação - Somos Fortes</p>
+            </div>
+
+            <div class="flex justify-center gap-6 mb-12">
+                <a href="#" class="w-12 h-12 rounded-full bg-emerald-900 flex items-center justify-center text-emerald-300 hover:bg-lime-500 hover:text-emerald-950 transition-all transform hover:scale-110">
+                    <i data-lucide="instagram" class="w-6 h-6"></i>
+                </a>
+                <a href="#" class="w-12 h-12 rounded-full bg-emerald-900 flex items-center justify-center text-emerald-300 hover:bg-lime-500 hover:text-emerald-950 transition-all transform hover:scale-110">
+                    <i data-lucide="facebook" class="w-6 h-6"></i>
+                </a>
+                <a href="#" class="w-12 h-12 rounded-full bg-emerald-900 flex items-center justify-center text-emerald-300 hover:bg-lime-500 hover:text-emerald-950 transition-all transform hover:scale-110">
+                    <i data-lucide="youtube" class="w-6 h-6"></i>
+                </a>
+            </div>
+
+            <div class="text-emerald-400/40 text-sm">
+                <p>&copy; 2026 Retiro MRNT. Todos os direitos reservados.</p>
+                <p class="mt-2">Feito com fé e código.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript para Lógica e Animações -->
+    <script>
+        // Inicializa ícones Lucide
+        lucide.createIcons();
+
+        // --- Navbar Scroll Effect ---
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-emerald-950/90', 'backdrop-blur-md', 'shadow-xl', 'py-4');
+                navbar.classList.remove('py-6');
+            } else {
+                navbar.classList.remove('bg-emerald-950/90', 'backdrop-blur-md', 'shadow-xl', 'py-4');
+                navbar.classList.add('py-6');
+            }
+        });
+
+        // --- Mobile Menu Toggle ---
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = menuBtn.querySelector('i');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        let isMenuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('hidden');
+                menuIcon.setAttribute('data-lucide', 'x');
+            } else {
+                mobileMenu.classList.add('hidden');
+                menuIcon.setAttribute('data-lucide', 'menu');
+            }
+            lucide.createIcons(); // Re-render icon
+        });
+
+        // Fechar menu ao clicar em link
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                mobileMenu.classList.add('hidden');
+                menuIcon.setAttribute('data-lucide', 'menu');
+                lucide.createIcons();
+            });
+        });
+
+        // --- Scroll Animations (Intersection Observer) ---
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // Opcional: parar de observar após animar
+                    // observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Selecionar elementos para animar
+        const animatedElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+        animatedElements.forEach(el => observer.observe(el));
+
+
+        // --- Form Submission Simulation ---
+        const form = document.getElementById('registration-form');
+        const successMessage = document.getElementById('success-message');
+        const submitBtn = document.getElementById('submit-btn');
+        const btnText = submitBtn.querySelector('span');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Estado de carregamento
+            const originalText = btnText.innerText;
+            btnText.innerText = 'Enviando...';
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            // Simular delay de envio
+            setTimeout(() => {
+                form.classList.add('hidden');
+                successMessage.classList.remove('hidden');
+                
+                // Resetar botão para próxima vez
+                btnText.innerText = originalText;
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+            }, 1500);
+        });
+
+        function resetForm() {
+            successMessage.classList.add('hidden');
+            form.classList.remove('hidden');
+            form.reset();
+        }
+    </script>
+</body>
+</html>
